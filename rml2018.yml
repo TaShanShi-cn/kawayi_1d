@@ -1,0 +1,43 @@
+data:
+    dataset: "RML2018"
+    category: "signal"
+    signal_length: 1024
+    channels: 2  # I and Q components
+    logit_transform: false
+    uniform_dequantization: false
+    gaussian_dequantization: false
+    random_flip: false
+    rescaled: true
+    num_workers: 8
+
+model:
+    type: "unet1d"
+    in_channels: 2
+    out_ch: 2
+    ch: 128
+    ch_mult: [1, 2, 4, 8]
+    num_res_blocks: 2
+    attn_resolutions: [64, 32]
+    dropout: 0.1
+    var_type: fixedsmall
+    ema_rate: 0.999
+    ema: True
+    resamp_with_conv: True
+
+diffusion:
+    beta_schedule: linear
+    beta_start: 0.0001
+    beta_end: 0.02
+    num_diffusion_timesteps: 1000
+
+sampling:
+    batch_size: 64
+    last_only: True
+
+training:
+    batch_size: 64
+    n_epochs: 1000
+    learning_rate: 2e-4
+    warmup: 5000
+    grad_clip: 1.0
+    save_freq: 100
